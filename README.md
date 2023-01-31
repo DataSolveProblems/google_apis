@@ -9,7 +9,6 @@ import os
 import pandas as pd
 from google_apis.gdrive import GDrive
 from google_apis.ytube_analytics import YouTubeAnalytics
-from google_apis.utility import create_service
 
 client_file = 'client-secret.json'
 
