@@ -1,0 +1,7 @@
+
+Lib/
+Scripts/
+google_apis/__pycache__
+"token files/"
+
+*.json
