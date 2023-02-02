@@ -1,5 +1,5 @@
-from .exceptions import AuthException
 from .utility import create_service
+
 
 class YouTubeAnalytics:
 	API_NAME = 'youtubeAnalytics'
