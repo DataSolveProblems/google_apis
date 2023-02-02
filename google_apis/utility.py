@@ -1,6 +1,7 @@
 import os
 import datetime
 from collections import namedtuple
+import pandas as pd
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
@@ -49,3 +50,12 @@ def create_service(client_secret_file, api_name, api_version, *scopes, prefix=''
 def convert_to_RFC_datetime(year=1900, month=1, day=1, hour=0, minute=0):
     dt = datetime.datetime(year, month, day, hour, minute, 0).isoformat() + 'Z'
     return dt
+
+def df_normalized(df):
+    normalized_dfs = []
+    for col in df.columns:
+        if isinstance(df.loc[0, col], dict):
+            normalized_dfs.append(pd.json_normalize(df[col]))
+        else:
+            normalized_dfs.append(df[col])
+    return pd.concat(normalized_dfs, axis=1)
