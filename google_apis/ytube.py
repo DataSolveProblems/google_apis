@@ -20,7 +20,7 @@ class YouTube:
 		https://developers.google.com/youtube/v3/docs/playlists/list		
 		"""	
 		playlists = []
-		response = yt.service.playlists().list(
+		response = self.service.playlists().list(
 			part='id,contentDetails,player,snippet,status',
 			mine=True,
 			maxResults=50
@@ -30,7 +30,7 @@ class YouTube:
 		next_page_token = response.get('nextPageToken')
 
 		while next_page_token:
-			response = yt.service.playlists().list(
+			response = self.service.playlists().list(
 				part='id,contentDetails,player,snippet,status',
 				mine=True,
 				maxResults=50,
@@ -38,14 +38,14 @@ class YouTube:
 			).execute()			
 			playlists.extend(response.get('items'))
 			next_page_token = response.get('nextPageToken')
-		return playlsits
+		return playlists
 
 	def channel_playlists(self, channel_id):
 		"""
 		https://developers.google.com/youtube/v3/docs/playlists/list		
 		"""
 		playlists = []
-		response = yt.service.playlists().list(
+		response = self.service.playlists().list(
 			part='id,contentDetails,player,snippet,status',
 			channelId=channel_id,
 			maxResults=50
@@ -55,7 +55,7 @@ class YouTube:
 		next_page_token = response.get('nextPageToken')
 
 		while next_page_token:
-			response = yt.service.playlists().list(
+			response = self.service.playlists().list(
 				part='id,contentDetails,player,snippet,status',
 				channelId=channel_id,
 				maxResults=50,
@@ -63,40 +63,40 @@ class YouTube:
 			).execute()			
 			playlists.extend(response.get('items'))
 			next_page_token = response.get('nextPageToken')
-		return playlsits
+		return playlists
 
-    def create_playlist(self, title, description=None, privacy_status='public'):
-        """
-        https://developers.google.com/youtube/v3/docs/playlists#resource
-        """
-        request_body = {
-            'snippet': {
-                'title': title,
-                'description': description,
-            },
-            'status': {
-                'privacyStatus': privacy_status
-            }
-        }
-        response = self.service.playlists().insert(
-            part='snippet,status',
-            body=request_body
-        ).execute()
-        return response
+	def create_playlist(self, title, description=None, privacy_status='public'):
+		"""
+		https://developers.google.com/youtube/v3/docs/playlists#resource
+		"""
+		request_body = {
+			'snippet': {
+				'title': title,
+				'description': description,
+			},
+			'status': {
+				'privacyStatus': privacy_status
+			}
+		}
+		response = self.service.playlists().insert(
+			part='snippet,status',
+			body=request_body
+		).execute()
+		return response
 
-    def update_playlist(self, playlist_id, title, description=None, privacy_status=None):
-        request_body = {
-            'id': playlist_id,
-            'snippet': {
-                'title': title,
-                'description': description
-            },
-            'status': {
-                'privacyStatus': privacy_status
-            }
-        }
-        response = self.service.playlists().update(
-            part='snippet,status',
-            body=request_body
-        ).execute()
-        return response        
+	def update_playlist(self, playlist_id, title, description=None, privacy_status=None):
+		request_body = {
+			'id': playlist_id,
+			'snippet': {
+				'title': title,
+				'description': description
+			},
+			'status': {
+				'privacyStatus': privacy_status
+			}
+		}
+		response = self.service.playlists().update(
+			part='snippet,status',
+			body=request_body
+		).execute()
+		return response		
